@@ -26,7 +26,7 @@ pipeline {
                                     sshTransfer(
                                         sourceFiles: 'main.py, requirements.txt',
                                         remoteDirectory: '/tmp',
-                                        execCommand: '/usr/bin/python3 /tmp/main.py & >> /dev/null 2>&1'
+                                        execCommand: '/usr/bin/python3 /tmp/main.py >> /dev/null 2>&1 &'
                                     )
                                 ]
                             )
