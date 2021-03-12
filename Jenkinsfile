@@ -24,6 +24,7 @@ pipeline {
                                 ],
                                 transfers: [
                                     sshTransfer(
+                                        execCommand: 'sudo rm -rf /tmp/main.py',
                                         sourceFiles: 'main.py',
                                         remoteDirectory: '/tmp'
                                     )
