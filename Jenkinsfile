@@ -25,7 +25,8 @@ pipeline {
                                 transfers: [
                                     sshTransfer(
                                         sourceFiles: 'main.py, requirements.txt',
-                                        remoteDirectory: '/tmp'
+                                        remoteDirectory: '/tmp',
+                                        execCommand: 'sudo yum install -y python3'
                                     )
                                 ]
                             )
