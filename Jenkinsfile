@@ -4,7 +4,8 @@ pipeline {
     stage ('Build') {
       steps {
         echo 'Running build automation'
-        archiveArtifacts artifacts: 'dist/graderapp.zip'
+        mkdir /graderapp
+        archiveArtifacts artifacts: '/graderapp/main.py'
       }
     }
   }
