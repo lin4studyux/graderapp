@@ -24,8 +24,7 @@ pipeline {
                                 ],
                                 transfers: [
                                     sshTransfer(
-                                        sourceFiles: 'main.py',
-                                        sourceFiles: 'requirements.txt',
+                                        sourceFiles: 'main.py','requirements.txt',
                                         remoteDirectory: '/graderapp'
                                     )
                                 ]
