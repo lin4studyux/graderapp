@@ -6,7 +6,7 @@ pipeline {
         echo 'Running build automation'
       }
     }
-    stage('DeployToStaging') {
+    stage('DeployToProd') {
             when {
                 branch 'master'
             }
@@ -25,7 +25,8 @@ pipeline {
                                 transfers: [
                                     sshTransfer(
                                         sourceFiles: 'main.py',
-                                        remoteDirectory: '/tmp'
+                                        sourceFiles: 'requirements.txt'
+                                        remoteDirectory: '/graderapp'
                                     )
                                 ]
                             )
