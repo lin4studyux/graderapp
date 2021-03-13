@@ -3,7 +3,7 @@ pipeline {
   stages {
     stage ('Build') {
       steps {
-        echo 'Running an empty build step'
+        echo 'Running an empty build step.'
       }
     }
     stage('DeployToProd') {
@@ -11,7 +11,7 @@ pipeline {
                 branch 'master'
             }
             steps {
-                withCredentials(bindings: [sshUserPrivateKey(credentialsId: 'webserver_login1', usernameVariable: 'USERNAME', keyFileVariable: 'SSHKEY')]) {
+                withCredentials(bindings: [sshUserPrivateKey(credentialsId: 'webserver_login1', keyFileVariable: 'SSHKEY')]) {
                     sshPublisher(
                         failOnError: true,
                         continueOnError: false,
