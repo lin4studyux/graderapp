@@ -18,10 +18,6 @@ pipeline {
                         publishers: [
                             sshPublisherDesc(
                                 verbose: true,
-                                sshCredentials: [
-                                    username: "$USERNAME",
-                                    key: "$SSHKEY"
-                                ],
                                 configName: 'cloud',
                                 transfers: [
                                     sshTransfer(
