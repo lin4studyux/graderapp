@@ -11,13 +11,16 @@ pipeline {
                 branch 'master'
             }
             steps {
-                sshagent(credentials: ['webserver_login1']) {
+                withCredentials([sshUserPrivateKey(credentialsId: 'webserver_login1', keyFileVariable: 'SSH_KEY')]) {
                     sshPublisher(
                         failOnError: true,
                         continueOnError: false,
                         publishers: [
                             sshPublisherDesc(
                                 configName: 'cloud',
+                                sshCredentials: [
+                                    key: "$SSH_KEY"
+                                ],
                                 transfers: [
                                     sshTransfer(
                                         sourceFiles: 'main.py, requirements.txt',
