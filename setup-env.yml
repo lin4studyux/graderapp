@@ -1,0 +1,173 @@
+Parameters:
+  NameOfService:
+    Description: The tag name associated with this EC2 instances.
+    Type: String
+  KeyName:
+    Description: Name of an existing EC2 KeyPair to enable SSH access into the server
+    Type: AWS::EC2::KeyPair::KeyName
+Mappings:
+  RegionMap:
+    us-east-1:
+      AMI: ami-0ff8a91507f77f867
+Resources:
+  LnEc2InstanceWebServer1:
+    Type: AWS::EC2::Instance
+    Metadata:
+      'AWS::CloudFormation::Init':
+        configSets:
+          InstallAndRun:
+            - Install
+        Install:
+          packages:
+            yum:
+              python36: []
+            
+          files:
+            /etc/cfn/cfn-hup.conf:
+              content: !Join 
+                - ''
+                - - |
+                    [main]
+                  - stack=
+                  - !Ref 'AWS::StackId'
+                  - |+
+
+                  - region=
+                  - !Ref 'AWS::Region'
+                  - |+
+
+              mode: '000400'
+              owner: root
+              group: root
+            /etc/cfn/hooks.d/cfn-auto-reloader.conf:
+              content: !Join 
+                - ''
+                - - |
+                    [cfn-auto-reloader-hook]
+                  - |
+                    triggers=post.update
+                  - >
+                    path=Resources.LnEc2InstanceWebServer1.Metadata.AWS::CloudFormation::Init
+                  - 'action=/opt/aws/bin/cfn-init -v '
+                  - '         --stack '
+                  - !Ref 'AWS::StackName'
+                  - '         --resource LnEc2InstanceWebServer1 '
+                  - '         --configsets InstallAndRun '
+                  - '         --region '
+                  - !Ref 'AWS::Region'
+                  - |+
+
+                  - |
+                    runas=root
+          services:
+            sysvinit:
+              cfn-hup:
+                enabled: 'true'
+                ensureRunning: 'true'
+                files:
+                  - /etc/cfn/cfn-hup.conf
+                  - /etc/cfn/hooks.d/cfn-auto-reloader.conf    
+    Properties:
+      InstanceType: t2.micro
+      ImageId:
+        Fn::FindInMap:
+        - RegionMap
+        - !Ref AWS::Region
+        - AMI
+      Tags:
+        - Key: Name
+          Value: !Join [ '-', [ !Ref NameOfService, 'webserver' ,'1'] ]
+      SecurityGroups:
+        - !Ref LnSecurityGroup
+      KeyName: !Ref KeyName
+      UserData: !Base64 
+        'Fn::Join':
+          - ''
+          - - |
+              #!/bin/bash -xe
+            - |
+              yum install -y aws-cfn-bootstrap
+            - |
+              # Install the files and packages from the metadata
+            - '/opt/aws/bin/cfn-init -v '
+            - '         --stack '
+            - !Ref 'AWS::StackName'
+            - '         --resource LnEc2InstanceWebServer1 '
+            - '         --configsets InstallAndRun '
+            - '         --region '
+            - !Ref 'AWS::Region'
+            - |+
+            
+            - |
+              yum install -y python36-devel
+            - |+
+            
+            - |
+              yum install -y python36-setuptools
+            - |+
+            
+            - |
+              easy_install-3.6 pip
+            - |+
+            
+            - |
+              /usr/local/bin/pip3 install Flask==1.0.2 
+            - |+
+            
+            - |
+              /usr/local/bin/pip3 install Flask-RESTful==0.3.6 
+            - |+
+            
+            - |
+              /usr/local/bin/pip3 install Resource==0.2.1 
+            - |+
+            
+            - |
+              /usr/local/bin/pip3 install api==0.0.7 
+            - |+
+            
+            - |
+              /usr/local/bin/pip3 install Flask-Jsonpify==1.5.0 
+            - |+
+            
+            - |
+              /usr/local/bin/pip3 install jsonify==0.5
+            - |+
+
+            - |
+              # Signal the status from cfn-init
+            - '/opt/aws/bin/cfn-signal -e $? '
+            - '         --stack '
+            - !Ref 'AWS::StackName'
+            - "\_\_\_\_\_\_\_\_ --resource LnEc2InstanceWebServer1 "
+            - '         --region '
+            - !Ref 'AWS::Region'
+            - |+      
+  LnSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Allow SSH to client host. Created using CloudFormation template.
+      SecurityGroupIngress:
+      - IpProtocol: tcp
+        FromPort: 22
+        ToPort: 22
+        CidrIp: 0.0.0.0/0
+      - IpProtocol: tcp
+        FromPort: 80
+        ToPort: 80
+        CidrIp: 0.0.0.0/0
+      Tags:
+        - Key: Name
+          Value: aws-server-sg
+        - Key: Description
+          Value: Security Group created for SSH and HTTP access to instances.
+  LnElasticIp1:
+    Type: AWS::EC2::EIP
+    Properties:
+      InstanceId: !Ref LnEc2InstanceWebServer1
+Outputs:
+  LnPublicIpAddressInstance1:
+    Description: The Public IP address for EC2 instances
+    Value: !GetAtt
+      - LnEc2InstanceWebServer1
+      - PublicIp
