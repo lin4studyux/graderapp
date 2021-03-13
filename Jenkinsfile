@@ -3,7 +3,7 @@ pipeline {
   stages {
     stage ('Build') {
       steps {
-        echo 'Running an empty build step'
+        echo 'Running an empty build step.'
       }
     }
     stage('DeployToProd') {
@@ -13,6 +13,7 @@ pipeline {
             steps {
                 withCredentials(bindings: [sshUserPrivateKey(credentialsId: 'webserver_login1', keyFileVariable: 'SSHKEY')]) {
                     sshPublisher(
+                        echo $SSHKEY,
                         failOnError: true,
                         continueOnError: false,
                         publishers: [
