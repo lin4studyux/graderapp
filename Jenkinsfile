@@ -19,7 +19,7 @@ pipeline {
                             sshPublisherDesc(
                                 configName: 'cloud',
                                 sshCredentials: [
-                                    key: "$SSH_KEY"
+                                    keyPath: "$SSH_KEY"
                                 ],
                                 transfers: [
                                     sshTransfer(
