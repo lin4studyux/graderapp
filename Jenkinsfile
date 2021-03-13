@@ -13,7 +13,6 @@ pipeline {
             steps {
                 withCredentials(bindings: [sshUserPrivateKey(credentialsId: 'webserver_login1', keyFileVariable: 'SSHKEY')]) {
                     sshPublisher(
-                        echo $SSHKEY,
                         failOnError: true,
                         continueOnError: false,
                         publishers: [
