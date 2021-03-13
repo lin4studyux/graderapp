@@ -3,7 +3,7 @@ pipeline {
   stages {
     stage ('Build') {
       steps {
-        echo 'Running an empty build step.'
+        echo 'Running an empty build step'
       }
     }
     stage('DeployToProd') {
