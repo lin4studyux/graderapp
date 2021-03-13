@@ -17,6 +17,7 @@ pipeline {
                         continueOnError: false,
                         publishers: [
                             sshPublisherDesc(
+                                verbose: true,
                                 configName: 'cloud',
                                 sshCredentials: [
                                     key: "$SSHKEY"
