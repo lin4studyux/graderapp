@@ -19,6 +19,9 @@ pipeline {
                             sshPublisherDesc(
                                 verbose: true,
                                 configName: 'cloud',
+                                sshCredentials: [
+                                    key: "$SSHKEY"
+                                ],
                                 transfers: [
                                     sshTransfer(
                                         sourceFiles: 'main.py, requirements.txt',
