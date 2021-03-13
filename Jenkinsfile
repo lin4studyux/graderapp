@@ -26,7 +26,7 @@ pipeline {
                                     sshTransfer(
                                         sourceFiles: 'main.py, requirements.txt',
                                         remoteDirectory: '/tmp',
-                                        execCommand: "kill -9 \$(ps aux | grep main | grep -v grep |awk '{print \$2}')"
+                                        execCommand: "kill -9 \$(ps aux | grep main | grep -v grep |awk '{print \$2}')",
                                         execCommand: "/usr/bin/python3 /tmp/main.py >> /dev/null 2>&1 &"
                                     )
                                 ]
