@@ -11,7 +11,7 @@ pipeline {
                 branch 'master'
             }
             steps {
-                withCredentials(bindings: [sshUserPrivateKey(credentialsId: 'webserver_login1')]) {
+                withCredentials([sshUserPrivateKey(credentialsId: 'webserver_login1')]) {
                     sshPublisher(
                         failOnError: true,
                         continueOnError: false,
