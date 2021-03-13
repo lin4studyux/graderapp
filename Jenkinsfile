@@ -11,7 +11,7 @@ pipeline {
                 branch 'master'
             }
             steps {
-                withCredentials(bindings: [sshUserPrivateKey(credentialsId: 'webserver_login1', keyFileVariable: 'SSHKEY')]) {
+                withCredentials(bindings: [sshUserPrivateKey(credentialsId: 'webserver_login1')]) {
                     sshPublisher(
                         failOnError: true,
                         continueOnError: false,
@@ -19,9 +19,6 @@ pipeline {
                             sshPublisherDesc(
                                 verbose: true,
                                 configName: 'cloud',
-                                sshCredentials: [
-                                    key: "$SSHKEY"
-                                ],
                                 transfers: [
                                     sshTransfer(
                                         sourceFiles: 'main.py, requirements.txt',
