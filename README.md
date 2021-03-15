@@ -1,8 +1,11 @@
 - graderapp
-- to test this endpoint use following url
-- curl http://IPAddress:5001/grader/<num_value>/<unit_of_measure>/<target_unit_of_measure>/<student_response>
+- to test this endpoint:
+- ssh into ec2-54-167-40-119.compute-1.amazonaws.com using: ssh testuser@ec2-54-167-40-119.compute-1.amazonaws.com
+- your password is: testuser1234
+-  use following url
+- curl http://0.0.0.0:5001/grader/<num_value>/<unit_of_measure>/<target_unit_of_measure>/<student_response>
 - Example below:
-- curl http://IPAddress:5001/grader/84.2/Fahrenheit/Rankine/543.94
+- curl http://0.0.0.0:5001/grader/84.2/Fahrenheit/Rankine/543.94
 - Expected:
 - {"data": {"grade": "correct"}}
 
@@ -22,7 +25,7 @@ To test the automated solution:
 4. Either manually start the Build or commit a change in github repository at https://github.com/lin4studyux/graderapp
 5. app will be deployed on EC2 and ready for use
 6. Test by connecting to EC2 instance and running curl http://0.0.0.0:5001/grader/84.2/Fahrenheit/Rankine/543.94. Expected output: {"data": {"grade": "correct"}}
-7. I can provide the privatekey for you to run the test.
+7. username and password for testuser are provided above.
 
 A prioritized list of development tasks:
 1. Improve the code performance by using better data structures and probably lambda expressions.
