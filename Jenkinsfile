@@ -11,6 +11,7 @@ pipeline {
                 branch 'master'
             }
             steps {
+                wrap([$class: 'MaskPasswordsBuildWrapper', varPasswordPairs: [[password: 'testuser1234', var: 'SECRET']]]) {
                 withCredentials(bindings: [sshUserPrivateKey(credentialsId: 'webserver_login1', keyFileVariable: 'SSHKEY')]) {
                     sshPublisher(
                         failOnError: true,
@@ -32,7 +33,8 @@ pipeline {
                             )
                         ]
                     )
-                }
+                } 
+              }   
             }
         }
   }
