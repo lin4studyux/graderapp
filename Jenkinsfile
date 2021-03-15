@@ -17,7 +17,7 @@ pipeline {
                         continueOnError: false,
                         publishers: [
                             sshPublisherDesc(
-                                verbose: true,
+                                verbose: false,
                                 configName: 'cloud',
                                 transfers: [
                                     sshTransfer(
