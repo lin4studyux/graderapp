@@ -9,7 +9,7 @@ api = Api(app)
 class grader(Resource):
     def get(self, num_value, unit_of_measure, target_unit_of_measure, student_response):
         output_response = gradecalculater(num_value, unit_of_measure, target_unit_of_measure, student_response)
-        result = {'data': {'grade': str(output_response)}}
+        result = {'banana': {'hungry for grade': str(output_response)}}
         return jsonify(result)
 
 api.add_resource(grader, '/grader/<num_value>/<unit_of_measure>/<target_unit_of_measure>/<student_response>')
