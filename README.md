@@ -1,8 +1,8 @@
 - graderapp
 - to test this endpoint:
-- Use browser to publicly access over the internet: using http://52.202.45.238:5001/grader/84.2/Fahrenheit/Rankine/543.94 
+- Use browser to publicly access over the internet: using http://52.201.75.252:5001/grader/84.2/Fahrenheit/Rankine/543.94 
   or
-- ssh into ec2-54-167-40-119.compute-1.amazonaws.com using: ssh testuser@ec2-54-167-40-119.compute-1.amazonaws.com
+- ssh into ec2-52-201-75-252.compute-1.amazonaws.com using: ssh testuser@ec2-52-201-75-252.compute-1.amazonaws.com
 - your password is: testuser1234
 -  use following url
 - curl http://0.0.0.0:5001/grader/<num_value>/<unit_of_measure>/<target_unit_of_measure>/<student_response>
